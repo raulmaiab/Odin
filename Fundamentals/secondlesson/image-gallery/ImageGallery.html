@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+  </head>
+    <style>
+        .body {
+            font-family: sans-serif;
+            width: 640px;
+            margin: 0 auto;
+            background-color: lightgray;
+        }
+
+        .h1 {
+            text-align: center;
+        }
+
+        .full-img {
+            position: relative;
+            display: block;
+            width: 640px;
+            height: 480px;
+            margin-bottom: 2px;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 640px;
+            height: 480px;
+        }
+
+        button {
+            background: rgb(150 150 150 / 0.6);
+            border: 1px solid #999999;
+            position: absolute;
+            cursor: pointer;
+            top: 2px;
+            left: 2px;
+        }
+
+        button:hover,
+            button:focus {
+            color: rgb(150 150 150 / 1);
+            background-color: black;
+        }
+
+        .thumb-bar {
+            display: flex;
+            gap: 2px;
+            cursor: pointer;
+        }
+
+        .thumb-bar img {
+            display: block;
+            width: 100px;
+            flex: 1;
+        }
+
+        .thumb-bar img:hover,
+        .thumb-bar img:focus {
+            outline: 2px solid blue;
+        }
+    </style>
+  <body>
+    <h1>Image gallery example</h1>
+
+    <div class="full-img">
+    <img
+        class="displayed-img"
+        src="https://mdn.github.io/shared-assets/images/examples/learn/gallery/pic1.jpg"
+        alt="Closeup of a human eye" />
+    <div class="overlay"></div>
+    <button class="dark">Darken</button>
+    </div>
+
+    <div class="thumb-bar"></div>
+
+    <script>  
+        const displayedImage = document.querySelector(".displayed-img");
+        const thumbBar = document.querySelector(".thumb-bar");
+
+        const btn = document.querySelector("button");
+        const overlay = document.querySelector(".overlay");
+
+        // Looping through images and adding their alt text and src to the thumbnail bar
+        for (let i = 1; i <= 5; i++) {
+            const newImage = document.createElement("img");
+            newImage.setAttribute(
+                "src",
+                `https://mdn.github.io/shared-assets/images/examples/learn/gallery/pic${i}.jpg`
+            );
+            newImage.setAttribute(
+                "alt",
+                `Thumbnail ${i}`
+            );
+            thumbBar.appendChild(newImage);
+        }
+        // Add functionality for clicking on thumbnails
+        thumbBar.addEventListener("click", (event) => {
+            if (event.target.tagName === "IMG") {
+                displayedImage.src = event.target.src;
+                displayedImage.alt = event.target.alt;
+            }
+        });
+
+        // Loop through the images using a for...of loop
+        for (const img of thumbBar.children) {
+            img.addEventListener("keydown", (e) => {
+                if(e.code === "Enter"){
+                    updateDisplayedImage(e);
+                }
+            });
+        }
+        //Uptdating displayed image when a thumbnail is clicked
+        newImage.addEventListener("click", (event) => {
+           updateDisplayedImage(event);
+        });
+
+        // Solution: Create the updateDisplayedImage() function
+        function updateDisplayedImage(e) {
+            displayedImage.src = e.target.src;
+            displayedImage.alt = e.target.alt;
+        }
+        
+        //
+
+        // Add a click event listener on the button
+        btn.addEventListener("click", () => {
+        // If the button has a "dark" class set,
+        // change text to "Lighten" and make the overlay darker
+        if (btn.classList.contains("dark")) {
+            btn.textContent = "Lighten";
+            overlay.style.backgroundColor = "rgb(0 0 0 / 0.5)";
+        } else {
+            // Else, change text to "Darken" and make
+            // the overlay lighter
+            btn.textContent = "Darken";
+            overlay.style.backgroundColor = "rgb(0 0 0 / 0)";
+        }
+        // Toggle the class ready for the next button press
+        btn.classList.toggle("dark");
+        });
+
+
+    </script>
+  </body>
+  </html>

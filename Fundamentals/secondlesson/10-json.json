@@ -1,0 +1,11 @@
+{
+    "allow" : "json does not allow comments",
+    "rules" : [
+        {
+            "key" : "value",
+            "strings" : "double-quotes",
+            "numbers" : 1.0
+
+        }
+    ]
+}
